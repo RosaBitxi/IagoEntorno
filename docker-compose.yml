@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+
+  www:
+    container_name: www
+    build: .
+    volumes:
+      # Montamos nuestra web desde fuera en el directorio web del contenedor
+      - ./php/src:/var/www/html
+    ports:
+      - 80:80
+
+  db:
+    container_name: db
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: dimensiona
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: abc123..
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+     - ./dbdata:/var/lib/mysql
+    ports:
+     - 9906:3306
+  
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin
+    restart: always
+    ports:
+     - 8000:80
+    environment:
+     - PMA_ARBITRARY=1
